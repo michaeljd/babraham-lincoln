@@ -5,8 +5,8 @@ import SEO from "../components/seo"
 
 import QuizData from "../../content/questions.json"
 
-const Question = ({ question, submitAnswer }) => {
-  const [answer, updateAnswer] = useState("")
+const Question = ({ question, submitAnswer, ...props }) => {
+  const [answer, updateAnswer] = useState(props.answer || "")
   useEffect(() => updateAnswer(""), [question])
 
   const onChange = (evt) => updateAnswer(evt.target.value)
@@ -27,9 +27,9 @@ const Question = ({ question, submitAnswer }) => {
   </form>
 }
 
-const Answer = ({ question, answer }) => (
+const Answer = ({ question, answer, onClick }) => (
   <li>
-    {question} <strong>{answer}</strong>
+    {question} <strong>{answer}</strong> <button onClick={onClick}>change</button>
   </li>
 )
 
@@ -47,8 +47,20 @@ const TeamName = ({ value, update }) => {
   </form>)
 }
 
+const isBrowser = () => (typeof window !== 'undefined')
+const loadGame = () => isBrowser() ? JSON.parse(localStorage.getItem("game") ?? "{}") : {}
+const saveGame = (gameState) => {
+  if (isBrowser()) localStorage.setItem("game", JSON.stringify(gameState))
+}
+const reset = () => {
+  if (isBrowser()) {
+    localStorage.clear()
+    window.location.reload()
+  }
+}
+
 const Quiz = () => {
-  const storedGame = JSON.parse(localStorage.getItem("game") ?? "{}")
+  const storedGame = loadGame()
   const [teamName, setTeamName] = useState(storedGame.teamName || "")
   const [answers, setAnswers] = useState(storedGame.answers || {})
   const [questionId, setQuestionId] = useState(Object.keys(answers).length)
@@ -59,13 +71,8 @@ const Quiz = () => {
     setQuestionId(questionId + 1)
   }
   useEffect(() => {
-    localStorage.setItem("game", JSON.stringify({ teamName, answers }))
+    saveGame({ teamName, answers })
   }, [teamName, answers])
-    
-  const reset = () => {
-    localStorage.clear()
-    window.location.reload()
-  }
 
   return (
     <Layout>
@@ -76,11 +83,11 @@ const Quiz = () => {
           <TeamName value={teamName} update={setTeamName} />
           :
           <div>
-            <Question question={currentQuestion.question} submitAnswer={answerQuestion} />
+            <Question question={currentQuestion.question} answer={answers[currentQuestionId].answer} submitAnswer={answerQuestion} />
 
             <strong>{teamName}</strong>
             <ol>
-              {Object.keys(answers).map((id) => <Answer key={id} {...answers[id]} /> )}
+              {Object.keys(answers).map((id) => <Answer key={id} {...answers[id]} onClick={() => setQuestionId(id)} /> )}
             </ol>
             <button onClick={reset}>Reset</button>
           </div>
