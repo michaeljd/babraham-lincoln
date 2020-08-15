@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { Button } from "./widgets"
 
 const Layout = styled('div')`
     display: flex;
@@ -20,6 +21,7 @@ const ChangeButton = styled("button")`
     background-color: transparent;
     border: 0;
     cursor: pointer;
+    color: #084B83;
 `
 
 const ListItem = styled("li")`
@@ -54,12 +56,20 @@ const Answer = ({ question, answer, onClick }) => {
 }
 
 const Answers = ({ teamName, answers, changeQuestion }) => {
+    const copyAnswers = () => {
+        navigator.clipboard.writeText(JSON.stringify({ teamName, answers })).then(() => {
+            alert("Copied!")
+        })
+    }
+    if (answers.length === 0) return null
     return (
           <Layout>
             <TeamName>{teamName}</TeamName>
             <ol>
                 {answers.map((answer, ix) => <Answer key={ix} {...answer} onClick={() => changeQuestion(ix)} />)}
             </ol>
+
+            <Button onClick={copyAnswers}>Copy!</Button>
           </Layout>
     )
 }
