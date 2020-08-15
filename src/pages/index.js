@@ -83,7 +83,7 @@ const Quiz = () => {
           <TeamName value={teamName} update={setTeamName} />
           :
           <div>
-            <Question question={currentQuestion.question} answer={answers[currentQuestionId].answer} submitAnswer={answerQuestion} />
+            <Question question={currentQuestion.question} answer={answers[questionId].answer} submitAnswer={answerQuestion} />
 
             <strong>{teamName}</strong>
             <ol>
