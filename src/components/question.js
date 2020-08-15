@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from "react"
+import styled from "styled-components"
+
+import { Form, Label, Input, Button } from "./widgets"
+
+const QuestionNumber = styled("h1")`
+    color: #084B83;
+`
 
 const Question = ({ questionNumber, question, submit }) => {
     const [answer, updateAnswer] = useState("")
@@ -10,14 +17,12 @@ const Question = ({ questionNumber, question, submit }) => {
         submit(answer)
     }
 
-    return <form onSubmit={onSubmit}>
-        <h1>Question {questionNumber + 1}</h1>
-        <label>
-            {question}
-            <input value={answer} onChange={onChange} />
-        </label>
-        <button>That's my answer!</button>
-    </form>
+    return <Form onSubmit={onSubmit}>
+        <QuestionNumber>Question {questionNumber + 1}</QuestionNumber>
+        <Label>{question}</Label>
+        <Input value={answer} onChange={onChange} />
+        <Button disabled={answer.length === 0}>That's my answer!</Button>
+    </Form>
 }
 
 export default Question
