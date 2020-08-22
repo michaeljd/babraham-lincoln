@@ -21,7 +21,7 @@ const Question = ({ questionNumber, question, submit }) => {
     return <Form onSubmit={onSubmit}>
         <QuestionNumber>Question {questionNumber + 1}</QuestionNumber>
         <Label>{questionText}</Label>
-        <Input value={answer} onChange={onChange} />
+        <Input value={answer} autoFocus onChange={onChange} />
         <Button disabled={answer.length === 0}>That's my answer!</Button>
     </Form>
 }

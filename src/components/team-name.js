@@ -21,7 +21,7 @@ const TeamName = ({ value, update }) => {
         <Wrapper>
             <Form onSubmit={onSubmit}>
                 <Label htmlFor="teamName">What's your team name?</Label>
-                <Input id="teamName" autofocus value={teamName} onChange={(evt) => setTeamName(evt.target.value)} />
+                <Input id="teamName" autoFocus value={teamName} onChange={(evt) => setTeamName(evt.target.value)} />
                 <Button>YES that's us</Button>
             </Form>
         </Wrapper>
