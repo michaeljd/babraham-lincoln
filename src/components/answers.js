@@ -56,7 +56,7 @@ const Answer = ({ question, answer, onClick }) => {
     )
 }
 
-const Answers = ({ teamName, answers, changeQuestion }) => {
+const Answers = ({ teamName, answers, changeAnswer }) => {
     const copyAnswers = () => {
         navigator.clipboard.writeText(JSON.stringify({ teamName, answers })).then(() => {
             alert("Copied!")
@@ -67,7 +67,7 @@ const Answers = ({ teamName, answers, changeQuestion }) => {
           <Layout>
             <TeamName>{teamName}</TeamName>
             <ol>
-                {answers.map((answer, ix) => <Answer key={ix} {...answer} onClick={() => changeQuestion(ix)} />)}
+                {answers.map((answer, ix) => <Answer key={ix} {...answer} onClick={() => changeAnswer(ix)} />)}
             </ol>
 
             <Button onClick={copyAnswers}>Copy!</Button>

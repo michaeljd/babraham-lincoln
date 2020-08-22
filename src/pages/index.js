@@ -6,38 +6,19 @@ import SEO from "../components/seo"
 import Answers from "../components/answers"
 import Question from "../components/question"
 import TeamName from "../components/team-name"
-import { Form, Button } from "../components/widgets"
+import EndOfRound from "../components/end-of-round"
 
 import { saveGame, loadGame } from "../utils/memory"
 import QuizData from "../../content/questions.json"
+import isBrowser from "../utils/is-browser"
 
-const Wrapper = styled('div')`
+const QuizWrapper = styled('div')`
     flex: 1;
     display: flex;
     flex-direction: column;
 `
 
-const Heading = styled('h2')`
-    text-align: center;
-    font-size: 48px;
-    padding: 24px;
-    color: #084B83;
-`
-
 const ROUND_LENGTH = 20
-
-const EndOfRound = ({ roundNumber, nextRound }) => {
-    const submitForm = (evt) => {
-        evt.preventDefault();
-        nextRound();
-    }
-
-    return <Form onSubmit={submitForm}>
-        <Heading>End of round {roundNumber}</Heading>
-
-        <Button>Start round {roundNumber + 1}</Button>
-    </Form>
-}
 
 const Quiz = () => {
     const storedGame = loadGame()
@@ -52,16 +33,18 @@ const Quiz = () => {
         const newAnswers = [...answers]
         newAnswers.splice(questionNumber, 1, { answer, question: currentQuestion.question })
         setAnswers(newAnswers)
+        setQuestionNumber(questionNumber + 1)
     }
 
     useEffect(() => {
         saveGame({ teamName, answers })
-        setQuestionNumber(answers.length)
     }, [teamName, answers])
 
-    const nextRound = () => {
-        setRoundNumber(roundNumber + 1)
-    }
+    useEffect(() => {
+        if (isBrowser()) window.scrollTo(0, 0)
+    }, [questionNumber])
+
+    const nextRound = () => setRoundNumber(roundNumber + 1)
 
     return (
         <Layout>
@@ -71,12 +54,13 @@ const Quiz = () => {
                 teamName.length === 0 ?
                     <TeamName value={teamName} update={setTeamName} />
                     :
-                    <Wrapper>
-                        { endOfRound ? <EndOfRound roundNumber={roundNumber} nextRound={nextRound} /> :
-                            <Question questionNumber={questionNumber} question={currentQuestion} submit={answerQuestion} />
-                        }
-                        <Answers teamName={teamName} answers={answers} changeQuestion={setQuestionNumber} />
-                    </Wrapper>
+                endOfRound ?
+                    <EndOfRound answers={answers.slice((roundNumber-1) * ROUND_LENGTH)} roundNumber={roundNumber} nextRound={nextRound} />
+                    :
+                    <QuizWrapper>
+                        <Question questionNumber={questionNumber} question={currentQuestion} submit={answerQuestion} />
+                        <Answers teamName={teamName} answers={answers} changeAnswer={setQuestionNumber} />
+                    </QuizWrapper>
             }
         </Layout>
     )
