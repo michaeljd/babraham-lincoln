@@ -27,13 +27,12 @@
   ],
   "license": "0BSD",
   "scripts": {
-    "build": "yarn fetch && gatsby build",
+    "build": "bin/generate.sh && gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "fetch": "curl https://www.randomtriviagenerator.com/questions?limit=60 > content/questions.json",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {

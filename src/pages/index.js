@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import styled from "styled-components"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -8,6 +9,19 @@ import TeamName from "../components/team-name"
 
 import { saveGame, loadGame } from "../utils/memory"
 import QuizData from "../../content/questions.json"
+
+const Wrapper = styled('div')`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+`
+
+const Heading = styled('h2')`
+    text-align: center;
+    font-size: 48px;
+    padding: 24px;
+    color: #084B83;
+`
 
 const Quiz = () => {
     const storedGame = loadGame()
@@ -34,10 +48,13 @@ const Quiz = () => {
                 teamName.length === 0 ?
                     <TeamName value={teamName} update={setTeamName} />
                     :
-                    <div>
-                        <Question questionNumber={questionNumber} question={currentQuestion.question} submit={answerQuestion} />
+                    <Wrapper>
+                        {currentQuestion ?
+                            <Question questionNumber={questionNumber} question={currentQuestion} submit={answerQuestion} />
+                            : <Heading>NO MORE QUESTIONS!</Heading>
+                        }
                         <Answers teamName={teamName} answers={answers} changeQuestion={setQuestionNumber} />
-                    </div>
+                    </Wrapper>
             }
         </Layout>
     )
