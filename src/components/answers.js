@@ -5,6 +5,8 @@ import { Button } from "./widgets"
 const Layout = styled('div')`
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    flex: 1;
 
     background-color: #BBE6E4;
     color: #084B83;
@@ -32,11 +34,11 @@ const ListItem = styled("li")`
 
 const ListItemLayout = styled("div")`
     display: flex;
+    flex-direction: column;
 `
 
 const ListItemQuestion = styled("span")`
     font-style: italic;
-    flex: 1;
 `
 
 const ListItemAnswer = styled("span")`
@@ -48,8 +50,7 @@ const Answer = ({ question, answer, onClick }) => {
         <ListItem>
             <ListItemLayout>
                 <ListItemQuestion>{question}</ListItemQuestion>
-                <ListItemAnswer>{answer}</ListItemAnswer>
-                <ChangeButton onClick={onClick}>(change)</ChangeButton>
+                <ListItemAnswer>{answer} <ChangeButton onClick={onClick}>(change)</ChangeButton></ListItemAnswer>
             </ListItemLayout>
         </ListItem>
     )

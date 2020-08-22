@@ -9,7 +9,8 @@ const QuestionNumber = styled("h1")`
 
 const Question = ({ questionNumber, question, submit }) => {
     const [answer, updateAnswer] = useState("")
-    useEffect(() => updateAnswer(""), [question])
+    const questionText = question.question;
+    useEffect(() => updateAnswer(""), [questionText])
 
     const onChange = (evt) => updateAnswer(evt.target.value)
     const onSubmit = (evt) => {
@@ -19,7 +20,7 @@ const Question = ({ questionNumber, question, submit }) => {
 
     return <Form onSubmit={onSubmit}>
         <QuestionNumber>Question {questionNumber + 1}</QuestionNumber>
-        <Label>{question}</Label>
+        <Label>{questionText}</Label>
         <Input value={answer} onChange={onChange} />
         <Button disabled={answer.length === 0}>That's my answer!</Button>
     </Form>

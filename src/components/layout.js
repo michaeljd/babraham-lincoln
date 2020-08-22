@@ -1,21 +1,28 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
 import React from "react"
+import styled from "styled-components"
+
 import PropTypes from "prop-types"
 
 import "./reset.css"
 
-const Layout = ({ children }) => {
+const Wrapper = styled('div')`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`
+
+const Main = styled('main')`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+`
+
+const Layout = ({ children, className }) => {
   return (
-    <div>
-      <main>{children}</main>
+    <Wrapper>
+      <Main>{children}</Main>
       <footer></footer>
-    </div>
+    </Wrapper>
   )
 }
 

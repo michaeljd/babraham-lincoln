@@ -37,9 +37,9 @@ export const Button = styled("button")`
 `
 
 export const Form = styled('form')`
-    height: 100vh;
     justify-content: center;
     display: flex;
     flex-direction: column;
     padding: 24px;
+    flex: 1;
 `
